@@ -58,37 +58,31 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  function playSound(event){
-    console.log("event is ", event);
-    const keys=document.querySelectorAll('div.key')
-    const keyArray=Array.from(keys);
-    keyArray.forEach(k=>k.addEventListener('transitionend',event =>{
-      console.log('its working')
+  function playSound(event) {
+    const keys = document.querySelectorAll('div.key')
+    const keysArray = Array.from(keys)
+    keysArray.forEach(k => k.addEventListener('transitionend', event => {
+      if (event.propertyName !== 'transform') {
+        return;
+      }
       event.target.classList.remove('playing')
     }))
-    const key=keyArray.find(k=> k.attributes['data-key'].value ==event.keyCode)
-    if(key){
+    const key = keysArray.find(k => k.attributes['data-key'].value == event.keyCode)
+    if (key) {
       key.classList.add('playing')
-      
     }
-    console.log("keys are", keyArray);
-    const audioElements=document.querySelectorAll('audio')
-    const audioArray=Array.from(audioElements);
-    const audio=audioArray.find(audio =>audio.attributes['data-key'].value===(event.keyCode).toString())
-    if(audio){
-      audio.currentTime=0;
-    audio.play();
-  
 
+    const audioElements = document.querySelectorAll('audio')
+    const audioArray = Array.from(audioElements);
+    const audio = audioArray.find(audio => audio.attributes['data-key'].value === (event.keyCode).toString())
+    if (audio) {
+      audio.currentTime = 0
+      audio.play()
     }
- 
-
   }
-  console.log("hello");
-  window.addEventListener('keydown',playSound)
 
+  window.addEventListener('keydown', playSound)
 </script>
-
 
 </body>
 </html>
